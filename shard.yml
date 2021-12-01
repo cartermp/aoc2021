@@ -1,0 +1,13 @@
+name: aoc2021
+version: 0.1.0
+
+authors:
+  - cartermp <pcarter@fastmail.com>
+
+targets:
+  aoc2021:
+    main: src/aoc2021.cr
+
+crystal: 1.2.2
+
+license: MIT
