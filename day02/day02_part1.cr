@@ -6,22 +6,22 @@ lines =
     File.open("data/day02/data.txt")
         .each_line
         .map { |line| to_tuple(line.split(" ")) }
-        .to_a
 
-horiztonal = 0
-vertical = 0
+x_pos = 0
+y_pos = 0
 
 lines.each do |line|
     command = line[0]
     amount = line[1]
 
-    if command == "forward"
-        horiztonal += amount
-    elsif command == "down"
-        vertical += amount
-    elsif command == "up"
-        vertical -= amount
+    case command
+    when "forward"
+        x_pos += amount
+    when "down"
+        y_pos += amount
+    when "up"
+        y_pos -= amount
     end
 end
 
-puts (horiztonal * vertical)
+puts (x_pos * y_pos)
