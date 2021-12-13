@@ -5,10 +5,8 @@ def check_braces(line)
     line.each_char do |c|
         if matches.has_key?(c)
             stack << c
-        else
-            if matches[stack.pop] != c
-                return false
-            end
+        elsif matches[stack.pop] != c
+            return false
         end
     end
 
@@ -40,9 +38,9 @@ end
 scores =
     File.read("data/day10/data.txt")
         .each_line
-        .to_a
         .select { |line| check_braces(line) }
         .map { |line| score_braces(line) }
+        .to_a
         .sort
 
 puts (scores[Int32.new(scores.size/2)])
