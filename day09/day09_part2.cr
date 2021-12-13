@@ -42,6 +42,32 @@ def count(data, offset)
     low_points
 end
 
+def can_go_left(i, offset, data, num)
+    i - 1 > -1 &&
+    !is_left_border(i, offset) &&
+    !data[i-1][:marked] &&
+    (num < data[i-1][:num] && data[i-1][:num] < 9)
+end
+
+def can_go_right(i, offset, data, num)
+    i + 1 < data.size &&
+    !is_right_border(i, offset) &&
+    !data[i+1][:marked] &&
+    (num < data[i+1][:num] && data[i+1][:num] < 9)
+end
+
+def can_go_up(i, offset, data, num)
+    i - offset > 0 &&
+    !data[i-offset][:marked] &&
+    (num < data[i-offset][:num] && data[i-offset][:num] < 9)
+end
+
+def can_go_down(i, offset, data, num)
+    i + offset < data.size &&
+    !data[i+offset][:marked] &&
+    (num < data[i+offset][:num] && data[i+offset][:num] < 9)
+end
+
 def crawl(i, offset, data, count)
     if data[i][:marked]
         return count
@@ -51,19 +77,19 @@ def crawl(i, offset, data, count)
     data[i] = { marked: true, num: num }
     local_count = 1
 
-    if i - 1 > -1 && !is_left_border(i, offset) && !data[i-1][:marked] && (num < data[i-1][:num] && data[i-1][:num] < 9)
+    if can_go_left(i, offset, data, num)
         local_count += crawl(i-1, offset, data, local_count)
     end
 
-    if i + 1 < data.size && !is_right_border(i, offset) && !data[i+1][:marked] && (num < data[i+1][:num] && data[i+1][:num] < 9)
+    if can_go_right(i, offset, data, num)
         local_count += crawl(i+1, offset, data, local_count)
     end
 
-    if i - offset > 0 && !data[i-offset][:marked] && (num < data[i-offset][:num] && data[i-offset][:num] < 9)
+    if can_go_up(i, offset, data, num)
         local_count += crawl(i-offset, offset, data, local_count)
     end
 
-    if i + offset < data.size && !data[i+offset][:marked] && (num < data[i+offset][:num] && data[i+offset][:num] < 9)
+    if can_go_down(i, offset, data, num)
         local_count += crawl(i+offset, offset, data, local_count)
     end
     
